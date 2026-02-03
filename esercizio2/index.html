@@ -1,20 +1,93 @@
 <!DOCTYPE html>
-<html lang="en">
+<html lang="it">
 <head>
     <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Document</title>
+    <title>Home</title>
+
     <style>
-        p {
-        color:orange
-    }
+      body {
+            margin: 0;
+            height: 100vh;
+            background: white;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            font-family: Didot, "Didot LT STD", serif;
+            overflow: hidden;
+        }
+        /* Contenitore centrale */
+        .contenitore {
+            text-align: center;
+        }
+
+        /* Nome */
+        .nome {
+            font-size: 64px;
+            color: orange;
+            cursor: pointer;
+            transition: transform 1.2s ease, opacity 1.2s ease;
+        }
+
+        /* Stato dopo il click */
+        .nome.scendi {
+            transform: translateY(250px);
+            opacity: 0;
+        }
+
+        /* Contenitore immagini */
+        .immagini {
+            margin-top: 40px;
+            display: flex;
+            gap: 40px;
+            opacity: 0;
+            pointer-events: none;
+            transition: opacity 1s ease;
+        }
+
+        .immagini.mostra {
+            opacity: 1;
+            pointer-events: auto;
+        }
+
+        .immagini img {
+            width: 280px;
+            cursor: pointer;
+            transition: transform 0.3s ease;
+        }
+
+        .immagini img:hover {
+            transform: scale(1.05);
+        }
     </style>
-</head>
-<body>
-    <div style="background-color: red;">F</div>
-    <div style="background-color: orangered;">I</div>
-    <div style="background-color: orange;">O</div>
-    <div style="background-color: yellow;">N</div>
-    <div style="background-color: greenyellow;">A</div>
-</body>
-</html>
+    </head>
+    <body>
+        <div class="contenitore">
+
+        <!-- Nome centrale -->
+        <div class="nome" id="nome">
+            Fiona Budda Giobbi
+        </div>
+
+        <!-- Immagini che compaiono dopo -->
+        <div class="immagini" id="immagini">
+            <img src="img1.jpg" alt="immagine 1">
+            <img src="img2.jpg" alt="immagine 2">
+        </div>
+
+    </div>
+
+    <script>
+        const nome = document.getElementById("nome");
+        const immagini = document.getElementById("immagini");
+
+        nome.addEventListener("click", () => {
+            nome.classList.add("scendi");
+
+            // quando il testo ha finito di scendere
+            setTimeout(() => {
+                immagini.classList.add("mostra");
+            }, 1200);
+        });
+    </script>
+    </body>
+    </html>
