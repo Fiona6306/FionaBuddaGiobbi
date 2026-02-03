@@ -5,7 +5,7 @@
     <title>Home</title>
 
     <style>
-      body {
+ body {
             margin: 0;
             height: 100vh;
             background: white;
@@ -15,6 +15,7 @@
             font-family: Didot, "Didot LT STD", serif;
             overflow: hidden;
         }
+
         /* Contenitore centrale */
         .contenitore {
             text-align: center;
@@ -58,36 +59,76 @@
         .immagini img:hover {
             transform: scale(1.05);
         }
+
+        /* Contenitore social */
+        .social {
+            margin-top: 30px;
+            display: flex;
+            justify-content: center;
+            gap: 30px;
+            opacity: 0;
+            pointer-events: none;
+            transition: opacity 1s ease;
+        }
+
+        .social.mostra {
+            opacity: 1;
+            pointer-events: auto;
+        }
+
+        .social img {
+            width: 60px;
+            cursor: pointer;
+            transition: transform 0.3s ease;
+        }
+
+        .social img:hover {
+            transform: scale(1.15);
+        }
     </style>
     </head>
+    
     <body>
-        <div class="contenitore">
-
-        <!-- Nome centrale -->
-        <div class="nome" id="nome">
-            Fiona Budda Giobbi
-        </div>
-
-        <!-- Immagini che compaiono dopo -->
-        <div class="immagini" id="immagini">
-            <img src="img1.jpg" alt="immagine 1">
-            <img src="img2.jpg" alt="immagine 2">
-        </div>
-
-    </div>
-
-    <script>
-        const nome = document.getElementById("nome");
-        const immagini = document.getElementById("immagini");
-
-        nome.addEventListener("click", () => {
-            nome.classList.add("scendi");
-
-            // quando il testo ha finito di scendere
-            setTimeout(() => {
-                immagini.classList.add("mostra");
-            }, 1200);
-        });
-    </script>
+     <div class="contenitore"> 
+        
+        <!-- Nome centrale --> 
+         <div class="nome" id="nome"> 
+            Fiona Budda Giobbi 
+        </div> 
+        
+        <!-- Immagini che compaiono dopo --> 
+         <div class="immagini" id="immagini"> 
+            <img src="img1.jpg" alt="immagine 1"> 
+            <img src="img2.jpg" alt="immagine 2"> 
+        </div> 
+        
+        <!-- Link ai social --> 
+        <div class="social" id="social"> 
+            <a href="https://www.tiktok.com/@TUO_USERNAME" target="_blank"> 
+                <img src="tiktok.png" alt="TikTok"> 
+            </a> 
+            
+            <a href="https://www.instagram.com/_g.fiona_/" target="_blank"> 
+                <img class="reveal" src="esercizio2/img/instagram copia.jpg" alt="">
+            </a>
+            </div> 
+            
+        </div> 
+        
+        <script> 
+             const nome = document.getElementById("nome"); 
+             const immagini = document.getElementById("immagini"); 
+             const social = document.getElementById("social"); 
+             
+             nome.addEventListener("click", () => {
+                 nome.classList.add("scendi"); 
+                 
+                 // quando il testo ha finito di scendere 
+                 setTimeout(() => {
+                     immagini.classList.add("mostra");
+                     social.classList.add("mostra");
+                 }, 1200); }); 
+                 </script>  
+    
     </body>
     </html>
