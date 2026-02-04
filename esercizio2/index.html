@@ -5,20 +5,17 @@
     <title>Home</title>
 
     <style>
- body {
+        body {
             margin: 0;
-            height: 100vh;
             background: white;
-            display: flex;
-            justify-content: center;
-            align-items: center;
             font-family: Didot, "Didot LT STD", serif;
-            overflow: hidden;
+            scroll-behavior: smooth; /* ⭐ scroll più fluido */
         }
 
-        /* Contenitore centrale */
+        /* Contenitore del nome */
         .contenitore {
             text-align: center;
+            margin-top: 80px; /* NON modifico la posizione del nome */
         }
 
         /* Nome */
@@ -29,51 +26,47 @@
             transition: transform 1.2s ease, opacity 1.2s ease;
         }
 
-        /* Stato dopo il click */
         .nome.scendi {
             transform: translateY(250px);
             opacity: 0;
         }
 
-        /* Nome piccolo nell'angolo */ 
-        .nome.piccolo { 
-            position: fixed; 
-            top: 20px; 
-            eft: 20px; 
-            font-size: 22px; 
-            opacity: 1; 
-            transform: translateY(0); 
-            transition: opacity 1s ease, font-size 1s ease; 
+        .nome.piccolo {
+            position: fixed;
+            top: 20px;
+            left: 20px;
+            font-size: 30px;
+            opacity: 1;
+            transform: translateY(0);
+            transition: opacity 1s ease, font-size 1s ease;
         }
 
-        /* Nome piccolo nell'angolo */ 
-        .nome.piccolo { 
-            position: fixed; 
-            top: 20px; 
-            left: 20px; 
-            font-size: 30px; 
-            opacity: 1; 
-            transform: translateY(0); 
-            transition: opacity 1s ease, font-size 1s ease; 
-        }
-
-        /* Contenitore immagini */
-        .immagini {
-            margin-top: 40px;
-            display: flex;
-            gap: 190px;
+        /* ⭐ SECONDA PAGINA SCROLLABILE */
+        .seconda-pagina {
+            height: 100vh;
+            overflow-y: auto;
             opacity: 0;
             pointer-events: none;
             transition: opacity 1s ease;
+            padding-top: 200px; /* immagini più in basso */
+            scroll-behavior: smooth; /* ⭐ scroll fluido anche qui */
         }
 
-        .immagini.mostra {
+        .seconda-pagina.mostra {
             opacity: 1;
             pointer-events: auto;
         }
 
+        /* Immagini */
+        .immagini {
+            display: flex;
+            justify-content: center;
+            gap: 150px;
+            margin-bottom: 900px; /* ⭐ scroll ancora più lungo */
+        }
+
         .immagini img {
-            width: 80px;
+            width: 120px;
             cursor: pointer;
             transition: transform 0.3s ease;
         }
@@ -82,15 +75,26 @@
             transform: scale(1.05);
         }
 
-        /* Contenitore social */
+        .box {
+            text-align: center;
+        }
+
+        .box p {
+            margin-top: 15px;
+            font-size: 18px;
+            color: #444;
+        }
+
+        /* Social */
         .social {
-            margin-top: 200px;
             display: flex;
             justify-content: center;
             gap: 40px;
             opacity: 0;
             pointer-events: none;
             transition: opacity 1s ease;
+            margin-top: 150px;
+            margin-bottom: 40px; /* ⭐ quasi al bordo inferiore */
         }
 
         .social.mostra {
@@ -99,7 +103,7 @@
         }
 
         .social img {
-            width: 50px;
+            width: 60px;
             cursor: pointer;
             transition: transform 0.3s ease;
         }
@@ -108,63 +112,78 @@
             transform: scale(1.15);
         }
     </style>
-    </head>
-    
-    <body>
-     <div class="contenitore"> 
-        
-        <!-- Nome centrale --> 
-         <div class="nome" id="nome"> 
-            Fiona Budda Giobbi 
-        </div> 
-        
-        <!-- Immagini che compaiono dopo --> 
-         <div class="immagini" id="immagini"> 
+</head>
 
-             <div class="box"> <img src="img1.jpg" alt="immagine 1"> 
-             <p>Testo sotto immagine 1</p> 
-        </div> 
+<body>
 
-            <div class="box"> <img src="img/palette_colori copia.jpg" alt="immagine 2"> 
-            <p>Testo sotto immagine 2</p> 
-        </div> 
-             <div class="box"> <img src="img/computer.jpg" alt="immagine 3"> 
-                <p>Testo sotto immagine 3</p> 
+    <div class="contenitore">
+        <div class="nome" id="nome">Fiona Budda Giobbi</div>
+    </div>
+
+    <!-- ⭐ SECONDA PAGINA SCROLLABILE -->
+    <div class="seconda-pagina" id="secondaPagina">
+
+        <div class="immagini" id="immagini">
+
+            <div class="box">
+                <img src="img/foto_io.jpeg" alt="immagine 1">
+                <p>Testo sotto immagine 1</p>
+            </div>
+
+            <div class="box">
+                <img src="img/palette_colori copia.jpg" alt="immagine 2">
+                <p>Testo sotto immagine 2</p>
+            </div>
+
         </div>
-            
-        </div> 
-        
-        <!-- Link ai social --> 
-        <div class="social" id="social"> 
-            <a href="https://www.tiktok.com/@TUO_USERNAME" target="_blank"> 
-                <img src="img/tiktok.png" alt="TikTok"> 
-            </a> 
-            
-            <a href="https://www.instagram.com/_g.fiona_/" target="_blank"> 
-                <img src="img/instagram.png" alt="Instagram"> 
+
+        <!-- ⭐ SOCIAL QUASI AL BORDO INFERIORE -->
+        <div class="social" id="social">
+
+            <!-- ⭐ EMAIL al posto di TikTok -->
+            <a href="mailto:tuamail@example.com">
+                <img src="img/mail.png" alt="Email">
             </a>
-            </div> 
-            
-        </div> 
-        
-        <script> 
-            const nome = document.getElementById("nome"); 
-            const immagini = document.getElementById("immagini"); 
-            const social = document.getElementById("social"); 
-            
-            nome.addEventListener("click", () => { 
-                nome.classList.add("scendi"); 
-                
-                setTimeout(() => { 
-                    immagini.classList.add("mostra"); 
-                    social.classList.add("mostra"); 
-                    
-                    // fa riapparire il nome in piccolo nell'angolo 
-                    nome.classList.remove("scendi"); 
-                    nome.classList.add("piccolo"); 
-                }, 1200); 
-            });
-        </script>  
-    
-    </body>
-    </html>
+
+            <a href="https://www.instagram.com/_g.fiona_/" target="_blank">
+                <img src="img/instagram.png" alt="Instagram">
+            </a>
+        </div>
+
+    </div>
+
+    <script>
+        const nome = document.getElementById("nome");
+        const secondaPagina = document.getElementById("secondaPagina");
+        const social = document.getElementById("social");
+
+        nome.addEventListener("click", () => {
+            nome.classList.add("scendi");
+
+            setTimeout(() => {
+                secondaPagina.classList.add("mostra");
+
+                nome.classList.remove("scendi");
+                nome.classList.add("piccolo");
+            }, 1200);
+        });
+
+        // ⭐ I SOCIAL COMPIONO SOLO QUANDO ARRIVI ALLA FINE
+        secondaPagina.addEventListener("scroll", () => {
+            const scrollPos = secondaPagina.scrollTop;
+            const maxScroll = secondaPagina.scrollHeight - secondaPagina.clientHeight;
+
+            if (scrollPos > maxScroll - 50) {
+                social.classList.add("mostra");
+            }
+        });
+    </script>
+
+</body>
+</html>
+
+
+
+
+
+
