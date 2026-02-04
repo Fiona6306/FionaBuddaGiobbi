@@ -19,27 +19,25 @@
         }
 
         /* Nome */
-        .nome {
-            font-size: 64px;
-            color: orange;
-            cursor: pointer;
-            transition: transform 1.2s ease, opacity 1.2s ease;
-        }
+.nome {
+    font-size: 64px;
+    color: orange;
+    cursor: pointer;
+    transition: transform 1.2s ease, opacity 1.2s ease, font-size 1.2s ease, top 1.2s ease, left 1.2s ease;
+    position: relative;
+    top: 0;
+    left: 0;
+    opacity: 1;
+}
 
-        .nome.scendi {
-            transform: translateY(250px);
-            opacity: 0;
-        }
+/* stato “piccolo” in alto a sinistra */
+.nome.piccolo {
+    position: fixed;
+    top: 20px;
+    left: 20px;
+    font-size: 30px;
+}
 
-        .nome.piccolo {
-            position: fixed;
-            top: 20px;
-            left: 20px;
-            font-size: 30px;
-            opacity: 1;
-            transform: translateY(0);
-            transition: opacity 1s ease, font-size 1s ease;
-        }
 
         /* ⭐ SECONDA PAGINA SCROLLABILE */
         .seconda-pagina {
@@ -111,6 +109,64 @@
         .social img:hover {
             transform: scale(1.15);
         }
+        
+        /* ⭐ PAGINE INTERNE */
+.pagina-interna {
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100vh;
+    background: white;
+    display: none;
+    overflow-y: auto;
+    padding: 40px;
+    text-align: center;
+    z-index: 9999;
+}
+
+/* Galleria 3×3 */
+.galleria {
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    gap: 30px;
+    max-width: 900px;
+    margin: auto;
+    margin-top: 40px;
+}
+
+.galleria img {
+    width: 100%;
+    border-radius: 10px;
+}
+
+.galleria p {
+    margin-top: 10px;
+    font-size: 16px;
+}
+
+/* Bottone torna indietro in alto a sinistra */
+.back-btn {
+    position: fixed;
+    top: 20px;
+    left: 20px;
+    padding: 10px 20px;
+    background: orange;
+    color: white;
+    border-radius: 8px;
+    text-decoration: none;
+    cursor: pointer;
+    font-size: 18px;
+    z-index: 999;
+}
+
+/* Effetto trasparenza quando selezioni una palette */
+.galleria img:hover {
+    opacity: 0.6;
+    transition: opacity 0.3s ease;
+    cursor: pointer;
+}
+
     </style>
 </head>
 
@@ -126,12 +182,12 @@
         <div class="immagini" id="immagini">
 
             <div class="box">
-                <img src="img/foto_io.jpeg" alt="immagine 1">
+                <img src="img/foto_io.jpeg" alt="immagine 1" id="open1">
                 <p>Testo sotto immagine 1</p>
             </div>
 
             <div class="box">
-                <img src="img/palette_colori copia.jpg" alt="immagine 2">
+                <img src="img/palette_colori copia.jpg" alt="immagine 2" id="open2">
                 <p>Testo sotto immagine 2</p>
             </div>
 
@@ -153,20 +209,52 @@
     </div>
 
     <script>
-        const nome = document.getElementById("nome");
-        const secondaPagina = document.getElementById("secondaPagina");
-        const social = document.getElementById("social");
+const nome = document.getElementById("nome");
+const secondaPagina = document.getElementById("secondaPagina");
+const social = document.getElementById("social");
 
-        nome.addEventListener("click", () => {
-            nome.classList.add("scendi");
+nome.addEventListener("click", () => {
 
-            setTimeout(() => {
-                secondaPagina.classList.add("mostra");
+    // ⭐ SE IL NOME È GRANDE → ANIMAZIONE COME PRIMA
+    if (!nome.classList.contains("piccolo")) {
 
-                nome.classList.remove("scendi");
-                nome.classList.add("piccolo");
-            }, 1200);
-        });
+        // 1. il nome scende
+        nome.classList.add("scendi");
+
+        // 2. dopo la discesa, appare la seconda pagina e il nome va in alto
+        setTimeout(() => {
+            secondaPagina.classList.add("mostra");
+            nome.classList.remove("scendi");
+            nome.classList.add("piccolo");
+        }, 1200);
+    }
+
+    // ⭐ SE IL NOME È PICCOLO → TORNA INDIETRO
+    else {
+
+        // 1. le immagini spariscono SUBITO
+        secondaPagina.classList.remove("mostra");
+        document.getElementById("pagina2").style.display = "none";
+
+        for (let i = 1; i <= 9; i++) {
+            const page = document.getElementById("paginaPalette" + i);
+            if (page) page.style.display = "none";
+        }
+
+        // 2. animazione inversa: il nome risale
+        nome.classList.add("scendi"); // stessa animazione ma al contrario
+
+        // 3. dopo l’animazione torna grande al centro
+        setTimeout(() => {
+            nome.classList.remove("piccolo");
+            nome.classList.remove("scendi");
+        }, 1200);
+    }
+});
+
+
+
+
 
         // ⭐ I SOCIAL COMPIONO SOLO QUANDO ARRIVI ALLA FINE
         secondaPagina.addEventListener("scroll", () => {
@@ -177,7 +265,286 @@
                 social.classList.add("mostra");
             }
         });
+
+        // APRI PAGINA 1
+document.getElementById("open1").onclick = () => {
+    document.getElementById("secondaPagina").style.display = "none";
+    document.getElementById("pagina1").style.display = "block";
+};
+
+// APRI PAGINA 2
+document.getElementById("open2").onclick = () => {
+    document.getElementById("secondaPagina").style.display = "none";
+    document.getElementById("pagina2").style.display = "block";
+};
+
+// TORNA INDIETRO
+function tornaIndietro() {
+    document.getElementById("pagina1").style.display = "none";
+    document.getElementById("pagina2").style.display = "none";
+    document.getElementById("secondaPagina").style.display = "block";
+}
+
     </script>
+
+
+
+<!-- ⭐ PAGINA INTERNA 1 -->
+<div class="pagina-interna" id="pagina1">
+    <div class="back-btn" onclick="tornaIndietro()">← Torna indietro</div>
+    <h1>Galleria 1</h1>
+
+    <div class="galleria">
+        <div><img src="img/foto_io.jpeg"><p>Testo 1</p></div>
+        <div><img src="img/foto_io.jpeg"><p>Testo 2</p></div>
+
+    </div>
+</div>
+
+<!-- ⭐ PAGINA INTERNA 2 -->
+<div class="pagina-interna" id="pagina2">
+    <div class="back-btn" onclick="tornaIndietro()">← Torna indietro</div>
+    <h1>Galleria 2</h1>
+
+    <div class="galleria">
+    <div><img src="img/palette1.jpg" id="palette1"><p>Palette 1</p></div>
+    <div><img src="img/palette2.jpg" id="palette2"><p>Palette 2</p></div>
+    <div><img src="img/palette3.jpg" id="palette3"><p>Palette 3</p></div>
+
+    <div><img src="img/palette4.jpg" id="palette4"><p>Palette 4</p></div>
+    <div><img src="img/palette5.jpg" id="palette5"><p>Palette 5</p></div>
+    <div><img src="img/palette6.jpg" id="palette6"><p>Palette 6</p></div>
+
+    <div><img src="img/palette7.jpg" id="palette7"><p>Palette 7</p></div>
+    <div><img src="img/palette8.jpg" id="palette8"><p>Palette 8</p></div>
+    <div><img src="img/palette9.jpg" id="palette9"><p>Palette 9</p></div>
+    </div>
+</div>
+
+
+<!-- PAGINA INTERNA PALETTE 1 -->
+<div class="pagina-interna" id="paginaPalette1">
+    <div class="back-btn" onclick="tornaIndietroPalette()">← Torna indietro</div>
+    <h1>Palette 1</h1>
+
+    <div class="galleria">
+        <div><img src="img/palette1_1.jpg"><p>Descrizione 1</p></div>
+        <div><img src="img/palette1_2.jpg"><p>Descrizione 2</p></div>
+        <div><img src="img/palette1_3.jpg"><p>Descrizione 3</p></div>
+        <div><img src="img/palette1_4.jpg"><p>Descrizione 4</p></div>
+    </div>
+
+    <p style="margin-top:40px; font-size:18px;">
+        Testo descrittivo della palette 1...
+    </p>
+</div>
+
+<!-- PAGINA INTERNA PALETTE 1 -->
+<div class="pagina-interna" id="paginaPalette2">
+    <div class="back-btn" onclick="tornaIndietroPalette()">← Torna indietro</div>
+    <h1>Palette 2</h1>
+
+    <div class="galleria">
+        <div><img src="img/palette1_1.jpg"><p>Descrizione 1</p></div>
+        <div><img src="img/palette1_2.jpg"><p>Descrizione 2</p></div>
+        <div><img src="img/palette1_3.jpg"><p>Descrizione 3</p></div>
+        <div><img src="img/palette1_4.jpg"><p>Descrizione 4</p></div>
+    </div>
+
+    <p style="margin-top:40px; font-size:18px;">
+        Testo descrittivo della palette 1...
+    </p>
+</div>
+
+<!-- PAGINA INTERNA PALETTE 1 -->
+<div class="pagina-interna" id="paginaPalette3">
+    <div class="back-btn" onclick="tornaIndietroPalette()">← Torna indietro</div>
+    <h1>Palette 3</h1>
+
+    <div class="galleria">
+        <div><img src="img/palette1_1.jpg"><p>Descrizione 1</p></div>
+        <div><img src="img/palette1_2.jpg"><p>Descrizione 2</p></div>
+        <div><img src="img/palette1_3.jpg"><p>Descrizione 3</p></div>
+        <div><img src="img/palette1_4.jpg"><p>Descrizione 4</p></div>
+    </div>
+
+    <p style="margin-top:40px; font-size:18px;">
+        Testo descrittivo della palette 1...
+    </p>
+</div>
+
+<!-- PAGINA INTERNA PALETTE 1 -->
+<div class="pagina-interna" id="paginaPalette4">
+    <div class="back-btn" onclick="tornaIndietroPalette()">← Torna indietro</div>
+    <h1>Palette 4</h1>
+
+    <div class="galleria">
+        <div><img src="img/palette1_1.jpg"><p>Descrizione 1</p></div>
+        <div><img src="img/palette1_2.jpg"><p>Descrizione 2</p></div>
+        <div><img src="img/palette1_3.jpg"><p>Descrizione 3</p></div>
+        <div><img src="img/palette1_4.jpg"><p>Descrizione 4</p></div>
+    </div>
+
+    <p style="margin-top:40px; font-size:18px;">
+        Testo descrittivo della palette 1...
+    </p>
+</div>
+
+<!-- PAGINA INTERNA PALETTE 1 -->
+<div class="pagina-interna" id="paginaPalette5">
+    <div class="back-btn" onclick="tornaIndietroPalette()">← Torna indietro</div>
+    <h1>Palette 5</h1>
+
+    <div class="galleria">
+        <div><img src="img/palette1_1.jpg"><p>Descrizione 1</p></div>
+        <div><img src="img/palette1_2.jpg"><p>Descrizione 2</p></div>
+        <div><img src="img/palette1_3.jpg"><p>Descrizione 3</p></div>
+        <div><img src="img/palette1_4.jpg"><p>Descrizione 4</p></div>
+    </div>
+
+    <p style="margin-top:40px; font-size:18px;">
+        Testo descrittivo della palette 1...
+    </p>
+</div>
+
+<!-- PAGINA INTERNA PALETTE 1 -->
+<div class="pagina-interna" id="paginaPalette6">
+    <div class="back-btn" onclick="tornaIndietroPalette()">← Torna indietro</div>
+    <h1>Palette 6</h1>
+
+    <div class="galleria">
+        <div><img src="img/palette1_1.jpg"><p>Descrizione 1</p></div>
+        <div><img src="img/palette1_2.jpg"><p>Descrizione 2</p></div>
+        <div><img src="img/palette1_3.jpg"><p>Descrizione 3</p></div>
+        <div><img src="img/palette1_4.jpg"><p>Descrizione 4</p></div>
+    </div>
+
+    <p style="margin-top:40px; font-size:18px;">
+        Testo descrittivo della palette 1...
+    </p>
+</div>
+
+<!-- PAGINA INTERNA PALETTE 1 -->
+<div class="pagina-interna" id="paginaPalette7">
+    <div class="back-btn" onclick="tornaIndietroPalette()">← Torna indietro</div>
+    <h1>Palette 7</h1>
+
+    <div class="galleria">
+        <div><img src="img/palette1_1.jpg"><p>Descrizione 1</p></div>
+        <div><img src="img/palette1_2.jpg"><p>Descrizione 2</p></div>
+        <div><img src="img/palette1_3.jpg"><p>Descrizione 3</p></div>
+        <div><img src="img/palette1_4.jpg"><p>Descrizione 4</p></div>
+    </div>
+
+    <p style="margin-top:40px; font-size:18px;">
+        Testo descrittivo della palette 1...
+    </p>
+</div>
+
+<!-- PAGINA INTERNA PALETTE 1 -->
+<div class="pagina-interna" id="paginaPalette8">
+    <div class="back-btn" onclick="tornaIndietroPalette()">← Torna indietro</div>
+    <h1>Palette 8</h1>
+
+    <div class="galleria">
+        <div><img src="img/palette1_1.jpg"><p>Descrizione 1</p></div>
+        <div><img src="img/palette1_2.jpg"><p>Descrizione 2</p></div>
+        <div><img src="img/palette1_3.jpg"><p>Descrizione 3</p></div>
+        <div><img src="img/palette1_4.jpg"><p>Descrizione 4</p></div>
+    </div>
+
+    <p style="margin-top:40px; font-size:18px;">
+        Testo descrittivo della palette 1...
+    </p>
+</div>
+
+<!-- PAGINA INTERNA PALETTE 1 -->
+<div class="pagina-interna" id="paginaPalette9">
+    <div class="back-btn" onclick="tornaIndietroPalette()">← Torna indietro</div>
+    <h1>Palette 9</h1>
+
+    <div class="galleria">
+        <div><img src="img/palette1_1.jpg"><p>Descrizione 1</p></div>
+        <div><img src="img/palette1_2.jpg"><p>Descrizione 2</p></div>
+        <div><img src="img/palette1_3.jpg"><p>Descrizione 3</p></div>
+        <div><img src="img/palette1_4.jpg"><p>Descrizione 4</p></div>
+    </div>
+
+    <p style="margin-top:40px; font-size:18px;">
+        Testo descrittivo della palette 1...
+    </p>
+</div>
+<!-- QUI INCOLLI IL CODICE DELLE PALETTE -->
+
+<script>
+    // Apri pagina palette 1
+    document.getElementById("palette1").onclick = () => {
+        document.getElementById("pagina2").style.display = "none";
+        document.getElementById("paginaPalette1").style.display = "block";
+    };
+
+    // Apri pagina palette 2
+    document.getElementById("palette2").onclick = () => {
+        document.getElementById("pagina2").style.display = "none";
+        document.getElementById("paginaPalette2").style.display = "block";
+    };
+
+        // Apri pagina palette 3
+    document.getElementById("palette3").onclick = () => {
+        document.getElementById("pagina2").style.display = "none";
+        document.getElementById("paginaPalette3").style.display = "block";
+    };
+
+        // Apri pagina palette 4
+    document.getElementById("palette4").onclick = () => {
+        document.getElementById("pagina2").style.display = "none";
+        document.getElementById("paginaPalette4").style.display = "block";
+    };
+
+        // Apri pagina palette 5
+    document.getElementById("palette5").onclick = () => {
+        document.getElementById("pagina2").style.display = "none";
+        document.getElementById("paginaPalette5").style.display = "block";
+    };
+    
+    // Apri pagina palette 6
+    document.getElementById("palette6").onclick = () => {
+        document.getElementById("pagina2").style.display = "none";
+        document.getElementById("paginaPalette6").style.display = "block";
+    };
+    
+    // Apri pagina palette 7
+    document.getElementById("palette7").onclick = () => {
+        document.getElementById("pagina2").style.display = "none";
+        document.getElementById("paginaPalette7").style.display = "block";
+    };  
+    
+    // Apri pagina palette 8
+    document.getElementById("palette8").onclick = () => {
+        document.getElementById("pagina2").style.display = "none";
+        document.getElementById("paginaPalette8").style.display = "block";
+    }; 
+    
+    // Apri pagina palette 9
+    document.getElementById("palette9").onclick = () => {
+        document.getElementById("pagina2").style.display = "none";
+        document.getElementById("paginaPalette9").style.display = "block";
+    };
+   
+
+    // ⭐ Torna indietro da QUALSIASI palette
+    function tornaIndietroPalette() {
+
+        // Chiude tutte le pagine palette
+        for (let i = 1; i <= 9; i++) {
+            const page = document.getElementById("paginaPalette" + i);
+            if (page) page.style.display = "none";
+        }
+
+        // Torna alla pagina con le 9 palette
+        document.getElementById("pagina2").style.display = "block";
+    }
+</script>
 
 </body>
 </html>
