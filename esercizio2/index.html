@@ -7,7 +7,7 @@
     <style>
         body {
             margin: 0;
-            background: white;
+            background: orange;
             font-family: Didot, "Didot LT STD", serif;
             scroll-behavior: smooth; /* ⭐ scroll più fluido */
         }
@@ -21,7 +21,7 @@
         /* Nome */
 .nome {
     font-size: 64px;
-    color: orange;
+    color: white;
     cursor: pointer;
     transition: transform 1.2s ease, opacity 1.2s ease, font-size 1.2s ease, top 1.2s ease, left 1.2s ease;
     position: relative;
@@ -61,59 +61,63 @@
         }
 
         /* Immagini */
-        .immagini {
-            display: flex;
-            justify-content: center;
-            gap: 150px;
-            margin-bottom: 900px; /* ⭐ scroll ancora più lungo */
-        }
+.immagini {
+    display: flex;
+    justify-content: center;
+    align-items: flex-start; /* allinea i box in alto */
+    gap: 150px;
+    margin-bottom: 900px;
+}
 
-        .immagini img {
-            width: 120px;
-            cursor: pointer;
-            transition: transform 0.3s ease;
-        }
+/* Immagini dentro i box */
+.immagini img {
+    width: 120px;
+    cursor: pointer;
+    transition: transform 0.3s ease;
+    display: block;
+}
 
-        .immagini img:hover {
-            transform: scale(1.05);
-        }
+/* Effetto hover */
+.immagini img:hover {
+    transform: scale(1.05);
+}
 
-        .box {
-            text-align: center;
-        }
+/* Contenitore di ogni immagine + testo */
+.box {
+    text-align: center;
+}
 
-        .box p {
-            margin-top: 15px;
-            font-size: 18px;
-            color: #444;
-        }
+/* Testi perfettamente allineati */
+.box p {
+    margin-top: 15px;
+    font-size: 24px;
+    color: white;
+}
 
-        /* Social */
-        .social {
-            display: flex;
-            justify-content: center;
-            gap: 40px;
-            opacity: 0;
-            pointer-events: none;
-            transition: opacity 1s ease;
-            margin-top: 150px;
-            margin-bottom: 40px; /* ⭐ quasi al bordo inferiore */
-        }
 
-        .social.mostra {
-            opacity: 1;
-            pointer-events: auto;
-        }
+/* Social sempre visibili in alto a destra */
+.social {
+    position: fixed;
+    top: 20px;
+    right: 20px;
+    display: flex;
+    gap: 15px;
+    z-index: 99999; /* sopra tutto */
+}
 
-        .social img {
-            width: 60px;
-            cursor: pointer;
-            transition: transform 0.3s ease;
-        }
+/* Icone piccole */
+.social img {
+    width: 28px;
+    cursor: pointer;
+    transition: transform 0.3s ease;
+}
 
-        .social img:hover {
-            transform: scale(1.15);
-        }
+.social img:hover {
+    transform: scale(1.15);
+}
+
+
+
         
         /* ⭐ PAGINE INTERNE */
 .pagina-interna {
@@ -150,14 +154,24 @@
     font-size: 16px;
 }
 
+.intro-artworks {
+    max-width: 700px;
+    margin: 20px auto 40px auto;
+    font-size: 15px;
+    line-height: 1.6;
+    color: #444;
+    text-align: center;
+}
+
+
 /* Bottone torna indietro in alto a sinistra */
 .back-btn {
     position: fixed;
     top: 20px;
     left: 20px;
     padding: 10px 20px;
-    background: orange;
-    color: white;
+    background: white;
+    color: orange;
     border-radius: 8px;
     text-decoration: none;
     cursor: pointer;
@@ -181,24 +195,7 @@
         <div class="nome" id="nome">Fiona Budda Giobbi</div>
     </div>
 
-    <!-- ⭐ SECONDA PAGINA SCROLLABILE -->
-    <div class="seconda-pagina" id="secondaPagina">
-
-        <div class="immagini" id="immagini">
-
-            <div class="box">
-                <img src="img/foto_io.jpeg" alt="immagine 1" id="open1">
-                <p>Testo sotto immagine 1</p>
-            </div>
-
-            <div class="box">
-                <img src="img/palette_colori copia.jpg" alt="immagine 2" id="open2">
-                <p>Testo sotto immagine 2</p>
-            </div>
-
-        </div>
-
-        <!-- ⭐ SOCIAL QUASI AL BORDO INFERIORE -->
+            <!-- ⭐ SOCIAL QUASI AL BORDO INFERIORE -->
         <div class="social" id="social">
 
             <!-- ⭐ EMAIL al posto di TikTok -->
@@ -210,6 +207,25 @@
                 <img src="img/instagram.png" alt="Instagram">
             </a>
         </div>
+
+    <!-- ⭐ SECONDA PAGINA SCROLLABILE -->
+    <div class="seconda-pagina" id="secondaPagina">
+
+        <div class="immagini" id="immagini">
+
+            <div class="box">
+                <img src="img/foto_io.jpeg" alt="immagine 1" id="open1">
+                <p>About Me</p>
+            </div>
+
+            <div class="box">
+        
+                <img src="img/palette_colori.png" alt="immagine 2" id="open2" style="margin-top:40px;">
+                <p> Artworks </p>
+            </div>
+
+        </div>
+
 
     </div>
 
@@ -258,19 +274,6 @@ nome.addEventListener("click", () => {
 });
 
 
-
-
-
-        // ⭐ I SOCIAL COMPIONO SOLO QUANDO ARRIVI ALLA FINE
-        secondaPagina.addEventListener("scroll", () => {
-            const scrollPos = secondaPagina.scrollTop;
-            const maxScroll = secondaPagina.scrollHeight - secondaPagina.clientHeight;
-
-            if (scrollPos > maxScroll - 50) {
-                social.classList.add("mostra");
-            }
-        });
-
         // APRI PAGINA 1
 document.getElementById("open1").onclick = () => {
     document.getElementById("secondaPagina").style.display = "none";
@@ -297,7 +300,7 @@ function tornaIndietro() {
 <!-- ⭐ PAGINA INTERNA 1 -->
 <div class="pagina-interna" id="pagina1">
     <div class="back-btn" onclick="tornaIndietro()">← Torna indietro</div>
-    <h1>Galleria 1</h1>
+    <h1>About Me</h1>
 
     <div class="galleria">
         <div><img src="img/foto_io.jpeg"><p>Testo 1</p></div>
@@ -309,18 +312,25 @@ function tornaIndietro() {
 <!-- ⭐ PAGINA INTERNA 2 -->
 <div class="pagina-interna" id="pagina2">
     <div class="back-btn" onclick="tornaIndietro()">← Torna indietro</div>
-    <h1>Galleria 2</h1>
+    <h1>Artworks</h1>
+
+<p class="intro-artworks">
+La mia arte nasce da un’esplorazione intima delle esperienze che mi hanno segnato, sia in modo positivo che negativo. 
+Ogni opera è un riflesso di sentimenti, emozioni e momenti che mi hanno definito, con un’attenzione particolare al tema della famiglia e ai legami che ci uniscono, ma anche a una varietà di temi universali.
+Il mio lavoro si sviluppa come un dialogo tra ciò che vivo, ciò che sento e ciò che desidero comunicare agli altri, cercando di far emergere l’intensità dei sentimenti attraverso la forma e il colore,
+provando anche nuove tecniche e sperimentando sempre con materiali differenti.
+</p>
 
     <div class="galleria">
-    <div><img src="img/palette1.jpg" id="palette1"><p>Palette 1</p></div>
-    <div><img src="img/palette2.jpg" id="palette2"><p>Palette 2</p></div>
-    <div><img src="img/palette3.jpg" id="palette3"><p>Palette 3</p></div>
+    <div><img src="img/bozzolo.png" id="palette1"><p>Palette 1</p></div>
+    <div><img src="img/volantino_mostra.png" id="palette2"><p>Palette 2</p></div>
+    <div><img src="img/cinelab.png" id="palette3"><p>Palette 3</p></div>
 
-    <div><img src="img/palette4.jpg" id="palette4"><p>Palette 4</p></div>
-    <div><img src="img/palette5.jpg" id="palette5"><p>Palette 5</p></div>
-    <div><img src="img/palette6.jpg" id="palette6"><p>Palette 6</p></div>
+    <div><img src="img/dali1.png" id="palette4"><p>Palette 4</p></div>
+    <div><img src="img/cera1.png" id="palette5"><p>Palette 5</p></div>
+    <div><img src="img/natura_morta.png" id="palette6"><p>Palette 6</p></div>
 
-    <div><img src="img/palette7.jpg" id="palette7"><p>Palette 7</p></div>
+    <div><img src="img/logo_felpa1.jpg" id="palette7"><p>Palette 7</p></div>
     <div><img src="img/palette8.jpg" id="palette8"><p>Palette 8</p></div>
     <div><img src="img/palette9.jpg" id="palette9"><p>Palette 9</p></div>
     </div>
